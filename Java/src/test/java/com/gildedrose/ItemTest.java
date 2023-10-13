@@ -20,10 +20,7 @@ public class ItemTest {
         }
 
         //Assertions
-        assertEquals(item.name, clonedItem.name);
-        assertEquals(item.sellIn, clonedItem.sellIn);
-        assertEquals(item.quality, clonedItem.quality);
-
+        assertEquals(item, clonedItem);
     }
 
 }
