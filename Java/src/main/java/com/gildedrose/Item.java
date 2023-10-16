@@ -1,5 +1,7 @@
 package com.gildedrose;
 
+import java.util.Objects;
+
 public class Item implements Cloneable {
 
     public String name;
@@ -23,5 +25,11 @@ public class Item implements Cloneable {
     protected Object clone() throws CloneNotSupportedException {
         super.clone();
         return new Item(this.name, this.sellIn, this.quality);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        Item other = (Item) object;
+        return Objects.equals(name, other.name) && Objects.equals(sellIn, other.sellIn) && Objects.equals(quality, other.quality);
     }
 }
