@@ -13,19 +13,19 @@ class GildedRose {
 
             Item item = items[i];
 
-            if (isAgedBrie(item) || isBackstagePass(item)) {
+            if (isAgedBrie(item)) {
                     if (item.quality < 50) {
                         increaseQuality(item);
-
-                        if (isBackstagePass(item)) {
+                    }
+                } else if (isBackstagePass(item)) {
+                    if (item.quality < 50) {
+                        increaseQuality(item);
                             if (item.sellIn < 11) {
                                 increaseQuality(item);
                             }
-
                             if (item.sellIn < 6) {
                                 increaseQuality(item);
                             }
-                        }
                     }
                 } else {
                 decreaseQuality(item);
