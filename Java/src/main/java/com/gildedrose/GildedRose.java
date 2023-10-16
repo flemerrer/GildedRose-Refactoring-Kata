@@ -13,31 +13,22 @@ class GildedRose {
 
             Item item = items[i];
 
-            if (!isAgedBrie(item)
-                    && !isBackstagePass(item)) {
-                if (item.quality > 0) {
-                    if (!isLegendaryItem(item)) {
-                        item.quality = item.quality - 1;
-                    }
-                }
-            } else {
-                if (item.quality < 50) {
-                    item.quality = item.quality + 1;
+            if (isAgedBrie(item) || isBackstagePass(item)) {
+                    if (item.quality < 50) {
+                        increaseQuality(item);
 
-                    if (isBackstagePass(item)) {
-                        if (item.sellIn < 11) {
-                            if (item.quality < 50) {
-                                item.quality = item.quality + 1;
+                        if (isBackstagePass(item)) {
+                            if (item.sellIn < 11) {
+                                increaseQuality(item);
                             }
-                        }
 
-                        if (item.sellIn < 6) {
-                            if (item.quality < 50) {
-                                item.quality = item.quality + 1;
+                            if (item.sellIn < 6) {
+                                increaseQuality(item);
                             }
                         }
                     }
-                }
+                } else {
+                decreaseQuality(item);
             }
 
             if (!isLegendaryItem(item)) {
@@ -45,22 +36,30 @@ class GildedRose {
             }
 
             if (item.sellIn < 0) {
-                if (!isAgedBrie(item)) {
-                    if (!isBackstagePass(item)) {
-                        if (item.quality > 0) {
-                            if (!isLegendaryItem(item)) {
-                                item.quality = item.quality - 1;
-                            }
-                        }
-                    } else {
-                        item.quality = item.quality - item.quality;
-                    }
+                if (isAgedBrie(item)) {
+                    increaseQuality(item);
                 } else {
-                    if (item.quality < 50) {
-                        item.quality = item.quality + 1;
+                    if (isBackstagePass(item)) {
+                        item.quality = 0;
+                    } else {
+                        decreaseQuality(item);
                     }
                 }
             }
+        }
+    }
+
+    private static void decreaseQuality(Item item) {
+        if (item.quality > 0) {
+            if (!isLegendaryItem(item)) {
+                item.quality -= 1;
+            }
+        }
+    }
+
+    private static void increaseQuality(Item item) {
+        if (item.quality < 50) {
+            item.quality += 1;
         }
     }
 
