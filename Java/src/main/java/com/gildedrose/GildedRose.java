@@ -14,37 +14,45 @@ class GildedRose {
             Item item = items[i];
 
             if (isAgedBrie(item)) {
-                    if (item.quality < 50) {
-                        increaseQuality(item);
-                    }
-                } else if (isBackstagePass(item)) {
-                    if (item.quality < 50) {
-                        increaseQuality(item);
-                            if (item.sellIn < 11) {
-                                increaseQuality(item);
-                            }
-                            if (item.sellIn < 6) {
-                                increaseQuality(item);
-                            }
-                    }
-                } else {
+                increaseQuality(item);
+            } else if (isBackstagePass(item)) {
+                updateBackstagePassQuality(item);
+            } else if (isConjuredItem(item)) {
+                decreaseQuality(item);
+                decreaseQuality(item);
+            } else {
                 decreaseQuality(item);
             }
 
-            if (!isLegendaryItem(item)) {
-                item.sellIn = item.sellIn - 1;
-            }
+            decreaseSellIn(item);
 
             if (item.sellIn < 0) {
                 if (isAgedBrie(item)) {
                     increaseQuality(item);
+                } else if (isBackstagePass(item)) {
+                    item.quality = 0;
                 } else {
-                    if (isBackstagePass(item)) {
-                        item.quality = 0;
-                    } else {
-                        decreaseQuality(item);
-                    }
+                    decreaseQuality(item);
                 }
+            }
+        }
+
+    }
+
+    private static void decreaseSellIn(Item item) {
+        if (!isLegendaryItem(item)) {
+            item.sellIn -= 1;
+        }
+    }
+
+    private static void updateBackstagePassQuality(Item item) {
+        if (item.quality < 50) {
+            increaseQuality(item);
+            if (item.sellIn < 11) {
+                increaseQuality(item);
+            }
+            if (item.sellIn < 6) {
+                increaseQuality(item);
             }
         }
     }
@@ -65,6 +73,10 @@ class GildedRose {
 
     private static boolean isLegendaryItem(Item item) {
         return item.name.equals("Sulfuras, Hand of Ragnaros");
+    }
+
+    private static boolean isConjuredItem(Item item) {
+        return item.name.equals("Conjured Mana Cake");
     }
 
     private static boolean isBackstagePass(Item item) {
